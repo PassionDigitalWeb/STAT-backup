@@ -1,0 +1,10 @@
+cron:
+    - description: 'daily setup for STAT sites'
+      url: /setup-sites
+      schedule: every day 20:00
+      timezone: Europe/London
+
+    - description: 'daily sync for STAT sites'
+      url: /synchronize
+      schedule: every day 21:00
+      timezone: Europe/London

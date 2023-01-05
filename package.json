@@ -1,0 +1,48 @@
+{
+    "name": "gsc-to-gbq",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
+        "setup-sites": "node setup-sites.js",
+        "sync-sites": "node sync-sites.js ",
+        "gcloud_deploy": "gcloud app deploy",
+        "gcloud_log": "gcloud app logs tail -s default",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PassionDigitalWeb/STAT-to-GBQ.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/PassionDigitalWeb/STAT-to-GBQ/issues"
+    },
+    "homepage": "https://github.com/PassionDigitalWeb/STAT-to-GBQ#readme",
+    "dependencies": {
+        "@google-cloud/bigquery": "^6.0.3",
+        "@google-cloud/logging-bunyan": "^4.2.1",
+        "@mechanicalhuman/bunyan-pretty": "^3.1.0",
+        "babel-eslint": "^10.1.0",
+        "bunyan": "^1.8.15",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "node-fetch": "^3.3.0",
+        "nodemailer": "^6.8.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.20.2",
+        "@babel/eslint-parser": "^7.19.1",
+        "eslint": "^8.22.0",
+        "eslint-config-prettier": "^8.5.0",
+        "prettier": "^2.7.1"
+    }
+}
