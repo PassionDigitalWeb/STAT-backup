@@ -1,12 +1,12 @@
 {
-    "name": "gsc-to-gbq",
+    "name": "stat-backup",
     "version": "1.0.0",
     "description": "",
     "type": "module",
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js",
+        "start": "nodemon server.js",
         "setup-sites": "node setup-sites.js",
         "sync-sites": "node sync-sites.js ",
         "gcloud_deploy": "gcloud app deploy",
@@ -16,27 +16,32 @@
         "lint:check": "eslint .",
         "lint:fix": "eslint --fix ."
     },
+    "engines": {
+        "node": ">= 16.17.0"
+    },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/PassionDigitalWeb/STAT-to-GBQ.git"
+        "url": "git+https://github.com/PassionDigitalWeb/STAT-backup.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/PassionDigitalWeb/STAT-to-GBQ/issues"
+        "url": "https://github.com/PassionDigitalWeb/STAT-backup/issues"
     },
-    "homepage": "https://github.com/PassionDigitalWeb/STAT-to-GBQ#readme",
+    "homepage": "https://github.com/PassionDigitalWeb/STAT-backup#readme",
     "dependencies": {
-        "@google-cloud/bigquery": "^6.0.3",
         "@google-cloud/logging-bunyan": "^4.2.1",
         "@mechanicalhuman/bunyan-pretty": "^3.1.0",
         "babel-eslint": "^10.1.0",
+        "body-parser": "^1.20.1",
         "bunyan": "^1.8.15",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
+        "mysql": "^2.18.1",
         "node-fetch": "^3.3.0",
-        "nodemailer": "^6.8.0"
+        "nodemailer": "^6.8.0",
+        "nodemon": "^2.0.20"
     },
     "devDependencies": {
         "@babel/core": "^7.20.2",

@@ -1,6 +1,6 @@
-import "./lib/setup";
+import "./lib/setup.js";
 import express from "express";
-import {addSitesToGBQ, syncGSCtoGBQ} from "./lib/actions";
+import {addSitesToGBQ, syncGSCtoGBQ} from "./lib/actions.js";
 
 const app = express()
 
