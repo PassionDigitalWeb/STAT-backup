@@ -3,17 +3,29 @@ DROP TABLE IF EXISTS `Keywords`;
 CREATE TABLE `Keywords`
 (
     ID INT NOT NULL PRIMARY KEY,
+    `SiteID` INT NOT NULL,
     `Keyword` VARCHAR(100) NULL DEFAULT NULL,
     `KeywordMarket` VARCHAR(100) NULL DEFAULT NULL,
     `KeywordLocation` VARCHAR(100) NULL DEFAULT NULL,
     `KeywordDevice` VARCHAR(100) NULL DEFAULT NULL,
     `KeywordTranslation` VARCHAR(100) NULL DEFAULT NULL,
-    `KeywordTags` VARCHAR(100) NULL DEFAULT NULL,
+    `KeywordTags` VARCHAR(1000) NULL DEFAULT NULL,
     `GlobalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
     `RegionalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
-    `date` DATE,
-    `KeywordRanking_Rank` VARCHAR(100) NULL DEFAULT NULL,
-    `KeywordRanking_BaseRank` VARCHAR(100) NULL DEFAULT NULL,
-    `KeywordRanking_Url` VARCHAR(200) NULL DEFAULT NULL,
     `CreatedAt` DATE
+);
+
+DROP TABLE IF EXISTS `KeywordRankings`;
+
+CREATE TABLE `KeywordRankings`
+(
+    ID INT AUTO_INCREMENT,
+    `SiteID` INT NOT NULL,
+    `KeywordID` INT NOT NULL,
+    `Rank` VARCHAR(100) NULL DEFAULT NULL,
+    `BaseRank` VARCHAR(100) NULL DEFAULT NULL,
+    `Url` VARCHAR(200) NULL DEFAULT NULL,
+    `date` DATE DEFAULT NULL,
+    `CreatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    PRIMARY KEY (ID)
 );
