@@ -1,4 +1,4 @@
-import "./lib/setup";
-import {syncGSCtoGBQ} from "./lib/actions";
+import './lib/setup.js'
+import syncSites from './lib/actions.js'
 
-syncGSCtoGBQ()
+syncSites()

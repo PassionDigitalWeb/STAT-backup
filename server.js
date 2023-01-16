@@ -1,6 +1,6 @@
 import "./lib/setup.js";
 import express from "express";
-import {addSitesToGBQ, syncGSCtoGBQ} from "./lib/actions.js";
+import syncSites from './lib/actions.js'
 
 const app = express()
 
@@ -21,16 +21,9 @@ function isCron(req, res, next) {
     return true
 }
 
-app.get('/setup-sites', (req, res, next) => {
-    if (isCron(req, res, next)) {
-        addSitesToGBQ()
-        res.send('setup new sites!')
-    }
-})
-
 app.get('/synchronize', (req, res, next) => {
     if (isCron(req, res, next)) {
-        syncGSCtoGBQ()
+        syncSites()
         res.send('syncing sites!')
     }
 })
