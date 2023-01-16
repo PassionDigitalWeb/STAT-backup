@@ -1,6 +1,5 @@
 cron:
-
     - description: 'daily syncKeywords for STAT sites'
-      url: /syncKeywords-sites
-      schedule: every day 21:00
+      url: /synchronize
+      schedule: every day 06:00
       timezone: Europe/London

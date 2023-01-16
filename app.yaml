@@ -1,4 +1,3 @@
 runtime: nodejs14
-instance_class: F4
 includes:
     - env_variables.yaml
