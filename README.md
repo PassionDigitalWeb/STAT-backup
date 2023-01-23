@@ -1,4 +1,4 @@
-# Storing Google Search Console into Google Big Query
+# STAT Backup
 
 # !!READ_ME INCOMPLETE!!
 
@@ -9,9 +9,7 @@
 -   `.env.template` - As `.env` is git ignored, this file can be used as a template.
 -   `.gitignore` - a list of files and folders to ignore from the git repository.
 -   `server.js` - DESCRIPTION NEEDED
--   `setup-sites.js` - DESCRIPTION NEEDED
 -   `sync-sites.js` - DESCRIPTION NEEDED
--   `service-account.json` - DESCRIPTION NEEDED
 
 **Google App Engine fields**
 

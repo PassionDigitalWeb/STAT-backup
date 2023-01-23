@@ -10,8 +10,8 @@ CREATE TABLE `Keywords`
     `KeywordDevice` VARCHAR(100) NULL DEFAULT NULL,
     `KeywordTranslation` VARCHAR(100) NULL DEFAULT NULL,
     `KeywordTags` VARCHAR(1000) NULL DEFAULT NULL,
-    `GlobalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
-    `RegionalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
+    `GlobalSearchVolume` INT NULL DEFAULT 0,
+    `RegionalSearchVolume` INT NULL DEFAULT 0,
     `CreatedAt` DATE
 );
 
@@ -22,8 +22,8 @@ CREATE TABLE `KeywordRankings`
     ID VARCHAR(100) NOT NULL UNIQUE,
     `SiteID` INT NOT NULL,
     `KeywordID` INT NOT NULL,
-    `Rank` VARCHAR(100) NULL DEFAULT NULL,
-    `BaseRank` VARCHAR(100) NULL DEFAULT NULL,
+    `Rank` INT NULL DEFAULT 0,
+    `BaseRank` INT NULL DEFAULT 0,
     `Url` VARCHAR(1000) NULL DEFAULT NULL,
     `date` DATE DEFAULT NULL,
     `CreatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 

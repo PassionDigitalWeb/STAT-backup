@@ -20,11 +20,11 @@ async function main() {
     for (const site of sites) {
         try {
             const dbPrefix = datasetIdFromSite(site)
-            const table = `${dbPrefix}_${KEYWORD_RANKINGS_TABLE}`
-            const table2 = `${dbPrefix}_${KEYWORDS_TABLE}`
+            const table = `${dbPrefix}_${KEYWORDS_TABLE}`
+            const table2 = `${dbPrefix}_${KEYWORD_RANKINGS_TABLE}`
 
             connection.query(
-                `DROP TABLE ??`,
+                `ALTER TABLE ?? MODIFY COLUMN \`RegionalSearchVolume\` INT NULL DEFAULT 0`,
                 [table],
                 (error, results, fields) => {
                     if (error) {
@@ -34,7 +34,7 @@ async function main() {
             )
 
             connection.query(
-                `DROP TABLE ??`,
+                `ALTER TABLE ?? MODIFY COLUMN \`BaseRank\` INT NULL DEFAULT 0`,
                 [table2],
                 (error, results, fields) => {
                     if (error) {
