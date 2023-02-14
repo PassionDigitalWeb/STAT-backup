@@ -8,7 +8,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-dev": "nodemon server.js",
     "start": "node server.js",
-    "setup-sites": "node setup-sites.js",
     "sync-sites": "node sync-sites.js ",
     "gcloud_deploy": "gcloud app deploy",
     "gcloud_log": "gcloud app logs tail -s default",
