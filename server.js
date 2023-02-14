@@ -1,6 +1,7 @@
 import "./lib/setup.js";
 import express from "express";
 import syncSites from './lib/actions.js'
+import { isAppEngineCron } from './lib/middleware.js'
 
 const app = express()
 
@@ -10,20 +11,10 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`)
 })
 
-// ensure that request comes from cron
-function isCron(req, res, next) {
-    if (req.header('X-Appengine-Cron') !== 'true') {
-        res.status(403).send('Cron only endpoint')
-        next()
-        return false
-    }
-
-    return true
-}
+// ensure that request comes from app engine cron
+app.use(isAppEngineCron)
 
 app.get('/synchronize', (req, res, next) => {
-    if (isCron(req, res, next)) {
-        syncSites()
-        res.send('syncing sites!')
-    }
+    syncSites()
+    res.send('syncing sites!')
 })
