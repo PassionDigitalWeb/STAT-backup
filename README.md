@@ -2,11 +2,15 @@
 Synchronize data between STAT and Cloud SQL.
 
 ## Stack
+
 - **Node.js** >=14.0.0: A JavaScript runtime environment that allows developers to run JavaScript on the server-side.
 - **Express**: A popular web framework for Node.js that simplifies the process of building web applications and APIs.
-- **Bunyan logger**: A logging library for Node.js that provides a structured way to log data and can be configured to output logs to various destinations.
-- **Google Cloud SQL**: A cloud-based relational database service provided by Google that allows developers to easily manage databases on the cloud.
-- **Google Monitoring**: A service provided by Google that enables monitoring and alerting for cloud resources and applications, including logs, metrics, and traces.
+- **Bunyan logger**: A logging library for Node.js that provides a structured way to log data and can be configured to
+  output logs to various destinations.
+- **Google Cloud SQL**: A cloud-based relational database service provided by Google that allows developers to easily
+  manage databases on the cloud.
+- **Google Monitoring**: A service provided by Google that enables monitoring and alerting for cloud resources and
+  applications, including logs, metrics, and traces.
 
 ## How it works
 
@@ -30,7 +34,8 @@ SQL tables. This eliminates the need for manual intervention to ensure that all 
 properly.
 
 The script includes error handling to help identify and resolve any issues that arise during synchronization. The
-logger.js file contains code for logging errors with [Bunyan](https://github.com/trentm/node-bunyan) to [Google Cloud Monitoring](https://cloud.google.com/monitoring). Additionally, the script can be configured
+logger.js file contains code for logging errors with [Bunyan](https://github.com/trentm/node-bunyan)
+to [Google Cloud Monitoring](https://cloud.google.com/monitoring). Additionally, the script can be configured
 to send email notifications in the event of an error. This ensures that any issues with the synchronization process can
 be addressed quickly, minimizing any impact on the web services being synchronized.
 
@@ -80,7 +85,9 @@ ORDER BY
 | `env_variables.yaml` | This file is used to define environment variables for an application in Google App Engine. It contains a list of key-value pairs, where the keys are the names of the environment variables and the values are their associated values. This file can be used in conjunction with app.yaml to set environment variables for a specific deployment of the app. |
 
 ## Setup
+
 ### Local Setup
+
 - Run `npm install`
 - Create `.env` file from `.env.template` file. Add relevant variables.
 
@@ -95,13 +102,17 @@ ORDER BY
 
 1. `/synchronize` - App Engine will call this endpoint every day at 18:00 GMT. This will synchronize each website on
    STAT to Cloud SQL.
+
 ## SQL Tables
+
 - `1234_passion_digital_Keywords`
 - `1234_passion_digital_KeywordRankings`
 
-For all tables a prefix is added. This will consist of the website ID within STAT, `1234`, and the parsed domain name, `passion_digital`.
+For all tables a prefix is added. This will consist of the website ID within STAT, `1234`, and the parsed domain
+name, `passion_digital`.
 
 ### Keyword table
+
 Example : `1234_passion_digital_Keywords`
 
 | Field Name           | Data Type     | Constraints           |
@@ -118,8 +129,8 @@ Example : `1234_passion_digital_Keywords`
 | RegionalSearchVolume | INT           | NULL DEFAULT 0        |
 | CreatedAt            | DATE          |                       |
 
-
 ### Keyword Rankings table
+
 Example : `1234_passion_digital_KeywordRankings`
 
 | Field Name | Data Type     | Constraints                                          |
@@ -134,7 +145,12 @@ Example : `1234_passion_digital_KeywordRankings`
 | CreatedAt  | TIMESTAMP     | NOT NULL, DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(ID) |
 
 ## Future Additions and improvements
+
 - Integrate Typescript
 - Integrate Sentry for better error handling
 - Add automated tests
-- Deployment from GitHub Actions, so we can test before deploying to App Engine and remove the need for `env_variables.yaml`
+- Deployment workflow from GitHub Actions, so we can test before deploying to App Engine and remove the need
+  for `env_variables.yaml`
+
+## Authors
+- **Sam Holtby**, Full Stack Developer : https://github.com/SamuelHoltby
