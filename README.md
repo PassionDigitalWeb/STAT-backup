@@ -63,12 +63,12 @@ ORDER BY
 
 | File/Folder     | Description                                                                                                                                                                                                                           |
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `lib/`          | Used for all JS code                                                                                                                                                                                                                  |
+| `lib/`          | Library folder used for all code.                                                                                                                                                                                                     |
 | `.env`          | Used locally for environment variables. Accessed via `process.env`.                                                                                                                                                                   |
 | `.env.template` | As `.env` is git ignored, this file can be used as a template.                                                                                                                                                                        |
 | `.gitignore`    | a list of files and folders to ignore from the git repository.                                                                                                                                                                        |
 | `server.js`     | This file typically contains the code for your Node.js server application. It defines the behavior of the server and specifies how it responds to incoming requests from clients. Utilising Express to handle routing and middleware. |
-| `sync-sites.js` | -                                                                                                                                                                                                                                     |
+| `sync-sites.js` | Used while calling `npm sync-sites`. This file will call `syncSite()` function.                                                                                                                                                       |
 
 ## Google App Engine fields
 
@@ -102,7 +102,7 @@ ORDER BY
 For all tables a prefix is added. This will consist of the website ID within STAT, `1234`, and the parsed domain name, `passion_digital`.
 
 ### Keyword table
-Example - `1234_passion_digital_Keywords`
+Example : `1234_passion_digital_Keywords`
 
 | Field Name           | Data Type     | Constraints           |
 |----------------------|---------------|-----------------------|
@@ -120,7 +120,7 @@ Example - `1234_passion_digital_Keywords`
 
 
 ### Keyword Rankings table
-`1234_passion_digital_KeywordRankings`
+Example : `1234_passion_digital_KeywordRankings`
 
 | Field Name | Data Type     | Constraints                                          |
 |------------|---------------|------------------------------------------------------|
@@ -137,3 +137,4 @@ Example - `1234_passion_digital_Keywords`
 - Integrate Typescript
 - Integrate Sentry for better error handling
 - Add automated tests
+- Deployment from GitHub Actions, so we can test before deploying to App Engine and remove the need for `env_variables.yaml`
