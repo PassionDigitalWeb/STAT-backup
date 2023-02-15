@@ -1,4 +1,5 @@
 # STAT Backup
+
 Synchronize data between STAT and Cloud SQL.
 
 ## Stack
@@ -33,11 +34,12 @@ Because the cron job runs automatically, any new websites added to STAT will be 
 SQL tables. This eliminates the need for manual intervention to ensure that all tracked websites are synchronized
 properly.
 
-The script includes error handling to help identify and resolve any issues that arise during synchronization. The
-logger.js file contains code for logging errors with [Bunyan](https://github.com/trentm/node-bunyan)
-to [Google Cloud Monitoring](https://cloud.google.com/monitoring). Additionally, the script can be configured
-to send email notifications in the event of an error. This ensures that any issues with the synchronization process can
-be addressed quickly, minimizing any impact on the web services being synchronized.
+The synchronization script comes with built-in error handling capabilities, enabling swift identification and resolution
+of any issues that may arise during the synchronization process. The error logging functionality is implemented in the
+logger.js file, which uses the [Bunyan](https://github.com/trentm/node-bunyan) logging library to log errors
+to [Google Cloud Monitoring](https://cloud.google.com/monitoring). For additional error
+handling capabilities, we also utilize [Sentry.io](https://sentry.io). However, in case Sentry.io is not configured through the environment
+file, the errors can be sent via email instead.
 
 The website's keyword and ranking tables can then be pulled in
 to [Google Data Studio](https://support.google.com/looker-studio/answer/7020436?hl=en) with this custom query.
@@ -147,10 +149,11 @@ Example : `1234_passion_digital_KeywordRankings`
 ## Future Additions and improvements
 
 - Integrate Typescript
-- Integrate Sentry for better error handling
+- ~~Integrate Sentry for better error handling~~
 - Add automated tests
 - Deployment workflow from GitHub Actions, so we can test before deploying to App Engine and remove the need
   for `env_variables.yaml`
 
 ## Authors
+
 - **Sam Holtby**, Full Stack Developer : https://github.com/SamuelHoltby
