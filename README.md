@@ -163,6 +163,7 @@ Example : `1234_passion_digital_KeywordRankings`
 
 - ~~Integrate Typescript~~
 - ~~Integrate Sentry for better error handling~~
+- Update Sentry for Typescript
 - Add automated tests
 - Deployment workflow from GitHub Actions, so we can test before deploying to App Engine and remove the need
   for `env_variables.yaml`
