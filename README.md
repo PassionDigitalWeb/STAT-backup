@@ -4,14 +4,18 @@ Synchronize data between STAT and Cloud SQL.
 
 ## Stack
 
+- **Typescript**: a typed superset of JavaScript that compiles to plain JavaScript. TypeScript adds optional static
+  type-checking and other features to the language, which can make it easier to develop and maintain large-scale
+  applications.
 - **Node.js** >=14.0.0: A JavaScript runtime environment that allows developers to run JavaScript on the server-side.
 - **Express**: A popular web framework for Node.js that simplifies the process of building web applications and APIs.
 - **Bunyan logger**: A logging library for Node.js that provides a structured way to log data and can be configured to
   output logs to various destinations.
 - **Google Cloud SQL**: A cloud-based relational database service provided by Google that allows developers to easily
   manage databases on the cloud.
-- **Google Monitoring**: A service provided by Google that enables monitoring and alerting for cloud resources and
-  applications, including logs, metrics, and traces.
+- **Sentry.io**: Sentry is a cloud-based error tracking and monitoring platform for software applications. It helps
+  developers diagnose, fix, and optimize errors in their applications by providing real-time insights into application
+  performance, errors, and crashes.
 
 ## How it works
 
@@ -38,7 +42,8 @@ The synchronization script comes with built-in error handling capabilities, enab
 of any issues that may arise during the synchronization process. The error logging functionality is implemented in the
 logger.js file, which uses the [Bunyan](https://github.com/trentm/node-bunyan) logging library to log errors
 to [Google Cloud Monitoring](https://cloud.google.com/monitoring). For additional error
-handling capabilities, we also utilize [Sentry.io](https://sentry.io). However, in case Sentry.io is not configured through the environment
+handling capabilities, we also utilize [Sentry.io](https://sentry.io). However, in case Sentry.io is not configured
+through the environment
 file, the errors can be sent via email instead.
 
 The website's keyword and ranking tables can then be pulled in
@@ -97,6 +102,9 @@ ORDER BY
 
 - Run `npm install`
 - Create `.env` file from `.env.template` file. Add relevant variables.
+- Run `npm start:dev` to start server locally
+- or Run `npm start` to build and start server
+- or Run `npm sync-sites` to sync sites locally
 
 ### App Engine Setup
 
