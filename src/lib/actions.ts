@@ -9,19 +9,19 @@ import { createNewPool } from './database'
 import { Site } from '../types/stat'
 import { Pool } from 'mysql'
 
+
 /**
- * It creates a new Sync object, creates the necessary tables, initializes the sync, syncs the keywords, and syncs the
- * rankings
+ * It creates the tables, retrieves the keywords, syncs the keywords, and syncs the rankings
  *
- * @param site - The site to sync.
- * @param connection - The connection to the database.
+ * @param {Site} site - Site - this is the site object that we created earlier.
+ * @param {Pool} connection - This is the connection to the database.
  */
 async function syncSite(site: Site, connection: Pool) {
     const dbPrefix = datasetIdFromSite(site)
     const sync = new Sync(dbPrefix, site, connection)
 
     await sync.createTables()
-    await sync.init()
+    await sync.retrieveKeywords()
     await sync.syncKeywords()
     await sync.syncRankings()
 }
@@ -32,42 +32,38 @@ async function syncSite(site: Site, connection: Pool) {
 export default async function syncSites() {
     logger.info('Started')
 
+    /* Creating a new transaction in Sentry. */
     const transaction = Sentry?.startTransaction({
         op: 'sync',
         name: 'Sync Sites',
     })
 
     const sites = await getAllSitesSTAT()
-    const errors: {
-        siteId?: string,
-        siteURL?: string,
-        error: string,
-    }[] = []
     const connection = createNewPool()
 
     if (sites) {
-        const promises = sites.map((site) =>
-            syncSite(site, connection)
-                .then(() => site.Url)
-                .catch((e) => {
-                    Sentry?.captureException(e, {
-                        extra: {
-                            siteId: site.Id,
-                            siteURL: site.Url,
-                        },
-                    })
-
-                    logger.error(`Sync Error: #${site.Id}`, {
-                        error: e.message,
-                    })
-
-                    return Promise.reject(e)
-                }))
-
-
         try {
-            const result = await Promise.allSettled(promises)
+            const syncSitePromises = sites.map((site) =>
+                syncSite(site, connection)
+                    .then(() => site.Url)
+                    .catch((e) => {
+                        Sentry?.captureException(e, {
+                            extra: {
+                                siteId: site.Id,
+                                siteURL: site.Url,
+                            },
+                        })
+
+                        logger.error(`Sync Error: #${site.Id}`, {
+                            error: e.message,
+                        })
+
+                        return Promise.reject(e)
+                    }))
+
+            const result = await Promise.allSettled(syncSitePromises)
             const rejected = result?.filter(({ status }) => status !== 'fulfilled')
+
             logger.info('allSettled results',
                 {
                     sites: sites.length,

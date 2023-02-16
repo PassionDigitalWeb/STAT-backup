@@ -25,7 +25,7 @@ export default class Sync {
     /**
      * This function gets all keywords from the STAT API and stores them in the `keywords` property
      */
-    async init() {
+    async retrieveKeywords() {
         //get all keywords
         let finished = false
         let startRow = 0
