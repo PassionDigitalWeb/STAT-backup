@@ -1,5 +1,5 @@
-import "./lib/setup.js";
-import express from "express";
+import './lib/setup.js'
+import express from 'express'
 import syncSites from './lib/actions.js'
 import { isAppEngineCron } from './lib/middleware.js'
 
@@ -12,7 +12,9 @@ app.listen(PORT, () => {
 })
 
 // ensure that request comes from app engine cron
-app.use(isAppEngineCron)
+if (process.env.NODE_ENV === 'production') {
+    app.use(isAppEngineCron)
+}
 
 app.get('/synchronize', (req, res, next) => {
     syncSites()
