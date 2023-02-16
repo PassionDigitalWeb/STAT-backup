@@ -1,6 +1,7 @@
 import url from 'node:url'
+import { Site } from '../types/stat'
 
-const datasetIdFromSite = (site) => {
+const datasetIdFromSite = (site: Site) => {
     let siteUrl = site.Url
 
     //remove trailing slash
@@ -10,7 +11,7 @@ const datasetIdFromSite = (site) => {
 
     const q = url.parse(siteUrl)
     const prefix = site.Id + '_'
-    return prefix + q.href.replace(/[\.-/]/g, '_')
+    return prefix + q.href.replace(/[.-/]/g, '_')
 }
 
 const daysAgoDate = (backDays = 3) => {
@@ -20,7 +21,7 @@ const daysAgoDate = (backDays = 3) => {
     return dateFullToBackup
 }
 
-function addMonths(numOfMonths, date = new Date()) {
+function addMonths(numOfMonths: number, date = new Date()) {
     date.setMonth(date.getMonth() + numOfMonths)
 
     return date
@@ -33,11 +34,11 @@ const monthsAgoDate = (monthsAgo = 16) => {
     return dateFullToBackup
 }
 
-function padTo2Digits(num) {
+function padTo2Digits(num: number) {
     return num.toString().padStart(2, '0')
 }
 
-function formatDate(date) {
+function formatDate(date: Date) {
     return [
         date.getFullYear(),
         padTo2Digits(date.getMonth() + 1),
@@ -45,7 +46,7 @@ function formatDate(date) {
     ].join('-')
 }
 
-function formatDateTime(date) {
+function formatDateTime(date: Date) {
     return (
         [
             date.getFullYear(),

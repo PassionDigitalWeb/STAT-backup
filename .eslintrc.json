@@ -4,14 +4,21 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "extends": [
-    "prettier"
-  ],
   "env": {
     "es2021": true,
     "node": true
   },
   "rules": {
-    "no-console": "error"
-  }
+    "no-console": "error",
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ]
 }

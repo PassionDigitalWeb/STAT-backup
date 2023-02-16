@@ -1,39 +1,39 @@
-import fetch from 'node-fetch'
-import { logger } from './logger.js'
-import Sync from './stat/sync.js'
-import { re } from '@babel/core/lib/vendor/import-meta-resolve.js'
-
+import fetch, { Response } from 'node-fetch'
+import Sync from './stat/sync'
+import { StatKeywordsList, StatResponse, StatSitesAll } from '../types/stat'
 
 class HTTPResponseError extends Error {
-    constructor(response) {
+    public response: Response
+
+    constructor(response: Response) {
         super(`HTTP Error Response: ${response.status} ${response.statusText}`)
         this.response = response
     }
 }
-
 
 class StatClient {
     #getURL() {
         return `${process.env.STAT_APP_URL}`
     }
 
-    #getPath(endpoint) {
+    #getPath(endpoint: string): string {
         return `/api/v2/${process.env.STAT_API_KEY}/${endpoint}`
     }
 
-    async query(endpoint, searchParams = '') {
+    async query(endpoint: string, searchParams = ''): Promise<any> {
         const newSearchParams = new URLSearchParams(searchParams)
         const url = new URL(this.#getPath(endpoint), this.#getURL())
 
         newSearchParams.set('format', 'json')
-        url.search = newSearchParams
+        url.search = newSearchParams.toString()
 
         const href = url.href
 
-        const response = await fetch(href)
+        const response: Response = await fetch(href)
         const data = await response.json()
 
-        if (!response.ok || data?.Response?.responsecode === 500) {
+        const responseCode = parseInt((data as StatResponse)?.Response?.responsecode)
+        if (!response.ok || responseCode === 500) {
             throw new HTTPResponseError(response)
         }
 
@@ -43,12 +43,13 @@ class StatClient {
 
 export const client = new StatClient()
 
+
 export async function getAllSitesSTAT() {
     const data = await client.query('sites/all', 'start=0&results=1000')
-    return data?.Response?.Result?.filter(({ Tracking }) => Tracking === 'true')
+    return (data as StatSitesAll).Response?.Result?.filter(({ Tracking }) => Tracking === 'true')
 }
 
-export async function getSiteDataSTAT(siteID, start = 0, results = Sync.ROW_LIMIT) {
+export async function getSiteDataSTAT(siteID: string|number, start = 0, results = Sync.ROW_LIMIT) {
     const data = await client.query('keywords/list', `site_id=${siteID}&start=${start}&results=${results}`)
-    return data?.Response
+    return (data as StatKeywordsList)?.Response
 }

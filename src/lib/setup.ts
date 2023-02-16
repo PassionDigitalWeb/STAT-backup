@@ -2,9 +2,9 @@ import { config } from 'dotenv'
 
 config()
 
-function checkRequiredEnvVars(requiredEnvVars) {
+function checkRequiredEnvVars(requiredEnvVars: string[]) {
     requiredEnvVars.forEach(envVar => {
-        if (!process.env.hasOwnProperty(envVar)) {
+        if (!Object.prototype.hasOwnProperty.call(process.env, envVar)) {
             throw new Error(`Required environment variable ${envVar} is missing.`)
         }
     })

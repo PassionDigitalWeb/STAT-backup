@@ -1,9 +1,12 @@
-import { logger } from './logger.js'
+import { logger } from './logger'
+import { OkPacket, Pool } from 'mysql'
+
+import { KeywordInsert, KeywordRankingInsert } from '../types/db'
 
 export const KEYWORDS_TABLE = `Keywords`
 export const KEYWORD_RANKINGS_TABLE = `KeywordRankings`
 
-function runQuery(conn, query, values = []) {
+function runQuery(conn: Pool, query: string, values: any[] = []): Promise<OkPacket> {
     return new Promise((resolve, reject) => {
         try {
             conn.query(
@@ -16,14 +19,14 @@ function runQuery(conn, query, values = []) {
                     resolve(results)
                 },
             )
-        } catch (e) {
+        } catch (e: any) {
             logger.error('runQuery', e)
             reject(e.message)
         }
     })
 }
 
-export function getAllKeywords(conn, siteID = null) {
+export function getAllKeywords(conn: Pool, siteID = null) {
 
     let query = `SELECT * FROM ${KEYWORDS_TABLE}`
 
@@ -34,7 +37,7 @@ export function getAllKeywords(conn, siteID = null) {
     return runQuery(conn, query)
 }
 
-export async function createTables(conn, database_prefix) {
+export async function createTables(conn: Pool, database_prefix: string) {
     const keywordsTable = `${database_prefix}_${KEYWORDS_TABLE}`
     const createKeywordsQuery = `
         CREATE TABLE IF NOT EXISTS  \`${keywordsTable}\`
@@ -56,7 +59,7 @@ export async function createTables(conn, database_prefix) {
     await runQuery(conn, createKeywordsQuery)
 
     const keywordRankingTable = `${database_prefix}_${KEYWORD_RANKINGS_TABLE}`
-    let createKeywordRankingsQuery = `
+    const createKeywordRankingsQuery = `
         CREATE TABLE IF NOT EXISTS \`${keywordRankingTable}\`
             (
                 ID VARCHAR(100) NOT NULL UNIQUE,
@@ -74,7 +77,7 @@ export async function createTables(conn, database_prefix) {
     await runQuery(conn, createKeywordRankingsQuery)
 }
 
-export function insertKeywords(conn, database_prefix, keywords) {
+export function insertKeywords(conn: Pool, database_prefix: string, keywords: KeywordInsert[]) {
 
     // `SiteID` INT NULL NOT NULL,
 //     `Keyword` VARCHAR(100) NULL DEFAULT NULL,
@@ -89,7 +92,7 @@ export function insertKeywords(conn, database_prefix, keywords) {
 //     `CreatedAt` DATE
 
 
-    const keywordInserts = []
+    const keywordInserts: KeywordInsert[] = []
     for (const keyword of keywords) {
         if (!keyword.SiteID) {
             throw Error('Missing SiteID')
@@ -113,7 +116,7 @@ export function insertKeywords(conn, database_prefix, keywords) {
             'CreatedAt': keyword.CreatedAt || '',
         }
 
-        keywordInserts.push(Object.values(insert))
+        keywordInserts.push((Object as any).values(insert))
     }
 
     const insertKeys = [
@@ -132,13 +135,13 @@ export function insertKeywords(conn, database_prefix, keywords) {
 
     const table = `${database_prefix}_${KEYWORDS_TABLE}`
 
-    let query = `REPLACE INTO \`${table}\`(??) VALUES ?`
+    const query = `REPLACE INTO \`${table}\`(??) VALUES ?`
 
     return runQuery(conn, query, [insertKeys, keywordInserts])
 }
 
 
-export function insertKeywordRankings(conn,database_prefix, rankings) {
+export function insertKeywordRankings(conn: Pool, database_prefix: string, rankings: KeywordRankingInsert[]) {
     const rankingInserts = []
     for (const rank of rankings) {
         if (!rank.SiteID) {
@@ -169,7 +172,7 @@ export function insertKeywordRankings(conn,database_prefix, rankings) {
     ]
 
     const table = `${database_prefix}_${KEYWORD_RANKINGS_TABLE}`
-    let query = `REPLACE INTO \`${table}\`(??) VALUES ?`
+    const query = `REPLACE INTO \`${table}\`(??) VALUES ?`
 
     return runQuery(conn, query, [insertKeys, rankingInserts])
 }

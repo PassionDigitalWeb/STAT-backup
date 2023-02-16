@@ -1,10 +1,12 @@
-import bunyan from "bunyan";
+import bunyan, { LoggerOptions } from 'bunyan'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import pretty from "@mechanicalhuman/bunyan-pretty";
+
 // Imports the Google Cloud client library for Bunyan
 import {LoggingBunyan} from "@google-cloud/logging-bunyan";
 
-
-const bunyanOptions = {
+const bunyanOptions:LoggerOptions = {
     name: 'stat_backup',
 }
 

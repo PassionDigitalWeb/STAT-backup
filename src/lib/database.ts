@@ -1,6 +1,7 @@
-import mysql from 'mysql'
+import mysql, { Pool } from 'mysql'
+import { DBConfig } from '../types/db'
 
-let config = {
+const config: DBConfig = {
     connectionLimit: 10,
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
@@ -25,8 +26,8 @@ if (process.env.NODE_ENV === 'production') {
  * It creates a new connection pool.
  * @returns A connection pool
  */
-export function createNewPool() {
-    let pool = mysql.createPool(config)
+export function createNewPool(): Pool {
+    const pool = mysql.createPool(config)
 
     pool.getConnection((err, connection) => {
         if (err)
@@ -40,7 +41,6 @@ export function createNewPool() {
         // eslint-disable-next-line no-console
         console.error(err.code)
     })
-
 
     return pool
 }

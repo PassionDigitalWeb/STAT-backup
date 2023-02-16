@@ -1,6 +1,8 @@
-import nodemailer from "nodemailer";
+import nodemailer from 'nodemailer'
 
-let transporter = nodemailer.createTransport({
+
+const transporter = nodemailer.createTransport({
+    // @ts-ignore
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     secure: process.env.SMTP_SECURE === '1',
@@ -10,7 +12,7 @@ let transporter = nodemailer.createTransport({
     },
 })
 
-async function sendErrorEmail({subject, html}) {
+async function sendErrorEmail({ subject, html }: { subject: string, html: string }) {
     return transporter.sendMail({
         from: process.env.SMTP_EMAIL_FROM, // sender address
         to: process.env.ADMIN_EMAIL,
@@ -19,4 +21,4 @@ async function sendErrorEmail({subject, html}) {
     })
 }
 
-export {sendErrorEmail}
+export { sendErrorEmail }
