@@ -42,9 +42,7 @@ The synchronization script comes with built-in error handling capabilities, enab
 of any issues that may arise during the synchronization process. The error logging functionality is implemented in the
 logger.js file, which uses the [Bunyan](https://github.com/trentm/node-bunyan) logging library to log errors
 to [Google Cloud Monitoring](https://cloud.google.com/monitoring). For additional error
-handling capabilities, we also utilize [Sentry.io](https://sentry.io). However, in case Sentry.io is not configured
-through the environment
-file, the errors can be sent via email instead.
+handling capabilities, we also utilize [Sentry.io](https://sentry.io).
 
 The website's keyword and ranking tables can then be pulled in
 to [Google Data Studio](https://support.google.com/looker-studio/answer/7020436?hl=en) with this custom query.

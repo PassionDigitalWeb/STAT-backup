@@ -4,7 +4,6 @@ import { getAllSitesSTAT } from './stat'
 import { datasetIdFromSite } from './helpers'
 import Sync from './stat/sync'
 
-import { sendErrorEmail } from './email'
 import Sentry from './sentry'
 import { createNewPool } from './database'
 import { Site } from '../types/stat'
@@ -48,33 +47,23 @@ export default async function syncSites() {
 
     if (sites) {
         const promises = sites.map((site) =>
-            new Promise(async (resolve, reject) => {
-                try {
-                    await syncSite(site, connection)
-                    resolve(site.Url)
-                } catch (e) {
-                    reject(e)
-                }
-            }).catch((e) => {
-                Sentry?.captureException(e, {
-                    extra: {
-                        siteId: site.Id,
-                        siteURL: site.Url,
-                    },
-                })
+            syncSite(site, connection)
+                .then(() => site.Url)
+                .catch((e) => {
+                    Sentry?.captureException(e, {
+                        extra: {
+                            siteId: site.Id,
+                            siteURL: site.Url,
+                        },
+                    })
 
-                logger.error(`Sync Error: #${site.Id}`, {
-                    error: e.message,
-                })
+                    logger.error(`Sync Error: #${site.Id}`, {
+                        error: e.message,
+                    })
 
-                errors.push({
-                    siteId: site.Id,
-                    siteURL: site.Url,
-                    error: e.message,
-                })
+                    return Promise.reject(e)
+                }))
 
-                throw e
-            }))
 
         try {
             const result = await Promise.allSettled(promises)
@@ -89,18 +78,6 @@ export default async function syncSites() {
         } catch (e) {
             Sentry?.captureException(e)
         }
-    }
-
-    if (process.env.EMAIL_ERRORS && errors.length) {
-        const htmlErrors = errors.map(({ siteId, siteURL, error }) => {
-            const errorsHTML = `<li>${error}</li>`
-            return `<b>Site : #${siteId} - ${siteURL}</b>` + `<p>${errorsHTML}</p><br/>`
-        })
-
-        await sendErrorEmail({
-            subject: 'Error while syncing',
-            html: htmlErrors.join(''),
-        })
     }
 
     logger.info('Finished')
