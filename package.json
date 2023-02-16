@@ -6,9 +6,9 @@
   "scripts": {
     "fresh": "rm -rf node_modules; rm package-lock.json; npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./build && tsc",
+    "build": "tsc",
     "start:dev": "npx nodemon",
-    "start": "npm run build && node build/index.js",
+    "start": "node build/index.js",
     "sync-sites": "npx ts-node ./src/sync-sites.ts",
     "gcloud_deploy": "gcloud app deploy",
     "gcloud_log": "gcloud app logs tail -s default",
@@ -45,9 +45,7 @@
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.8.0",
-    "rimraf": "^4.1.2"
-  },
-  "devDependencies": {
+    "rimraf": "^4.1.2",
     "@babel/core": "^7.20.2",
     "@babel/eslint-parser": "^7.19.1",
     "@types/bunyan": "^1.8.8",
