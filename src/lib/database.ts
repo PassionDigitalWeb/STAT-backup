@@ -1,5 +1,5 @@
 import mysql, { Pool } from 'mysql'
-import { DBConfig } from '../types/db'
+import { DBConfig } from '@app-types/db'
 
 const config: DBConfig = {
     connectionLimit: 10,
@@ -30,14 +30,13 @@ export function createNewPool(): Pool {
     const pool = mysql.createPool(config)
 
     pool.getConnection((err, connection) => {
-        if (err)
-            throw err
+        if (err) throw err
         // eslint-disable-next-line no-console
         console.log('Connected as thread id: ' + connection.threadId)
         connection.release()
     })
 
-    pool.on('error', function(err) {
+    pool.on('error', function (err) {
         // eslint-disable-next-line no-console
         console.error(err.code)
     })

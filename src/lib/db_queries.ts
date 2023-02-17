@@ -1,24 +1,24 @@
-import { logger } from './logger'
+import { logger } from '@lib/logger'
 import { OkPacket, Pool } from 'mysql'
 
-import { KeywordInsert, KeywordRankingInsert } from '../types/db'
+import { KeywordInsert, KeywordRankingInsert } from '@app-types/db'
 
 export const KEYWORDS_TABLE = `Keywords`
 export const KEYWORD_RANKINGS_TABLE = `KeywordRankings`
 
-function runQuery(conn: Pool, query: string, values: any[] = []): Promise<OkPacket> {
+function runQuery(
+    conn: Pool,
+    query: string,
+    values: any[] = []
+): Promise<OkPacket> {
     return new Promise((resolve, reject) => {
         try {
-            conn.query(
-                query,
-                values,
-                (error, results, fields) => {
-                    if (error) {
-                        throw error
-                    }
-                    resolve(results)
-                },
-            )
+            conn.query(query, values, (error, results, fields) => {
+                if (error) {
+                    throw error
+                }
+                resolve(results)
+            })
         } catch (e: any) {
             logger.error('runQuery', e)
             reject(e.message)
@@ -27,7 +27,6 @@ function runQuery(conn: Pool, query: string, values: any[] = []): Promise<OkPack
 }
 
 export function getAllKeywords(conn: Pool, siteID = null) {
-
     let query = `SELECT * FROM ${KEYWORDS_TABLE}`
 
     if (siteID) {
@@ -77,20 +76,22 @@ export async function createTables(conn: Pool, database_prefix: string) {
     await runQuery(conn, createKeywordRankingsQuery)
 }
 
-export function insertKeywords(conn: Pool, database_prefix: string, keywords: KeywordInsert[]) {
-
+export function insertKeywords(
+    conn: Pool,
+    database_prefix: string,
+    keywords: KeywordInsert[]
+) {
     // `SiteID` INT NULL NOT NULL,
-//     `Keyword` VARCHAR(100) NULL DEFAULT NULL,
-//     `KeywordMarket` VARCHAR(100) NULL DEFAULT NULL,
-//     `KeywordLocation` VARCHAR(100) NULL DEFAULT NULL,
-//     `KeywordDevice` VARCHAR(100) NULL DEFAULT NULL,
-//     `KeywordTranslation` VARCHAR(100) NULL DEFAULT NULL,
-//     `KeywordTags` VARCHAR(100) NULL DEFAULT NULL,
-//     `GlobalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
-//     `RegionalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
-//     `date` DATE,
-//     `CreatedAt` DATE
-
+    //     `Keyword` VARCHAR(100) NULL DEFAULT NULL,
+    //     `KeywordMarket` VARCHAR(100) NULL DEFAULT NULL,
+    //     `KeywordLocation` VARCHAR(100) NULL DEFAULT NULL,
+    //     `KeywordDevice` VARCHAR(100) NULL DEFAULT NULL,
+    //     `KeywordTranslation` VARCHAR(100) NULL DEFAULT NULL,
+    //     `KeywordTags` VARCHAR(100) NULL DEFAULT NULL,
+    //     `GlobalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
+    //     `RegionalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
+    //     `date` DATE,
+    //     `CreatedAt` DATE
 
     const keywordInserts: KeywordInsert[] = []
     for (const keyword of keywords) {
@@ -103,17 +104,17 @@ export function insertKeywords(conn: Pool, database_prefix: string, keywords: Ke
         }
 
         const insert = {
-            'SiteID': keyword.SiteID,
-            'ID': keyword.ID,
-            'Keyword': keyword.Keyword || '',
-            'KeywordMarket': keyword.KeywordMarket || '',
-            'KeywordLocation': keyword.KeywordLocation || '',
-            'KeywordDevice': keyword.KeywordDevice || '',
-            'KeywordTranslation': keyword.KeywordTranslation || '',
-            'KeywordTags': keyword.KeywordTags || '',
-            'GlobalSearchVolume': keyword.GlobalSearchVolume || 0,
-            'RegionalSearchVolume': keyword.RegionalSearchVolume || 0,
-            'CreatedAt': keyword.CreatedAt || '',
+            SiteID: keyword.SiteID,
+            ID: keyword.ID,
+            Keyword: keyword.Keyword || '',
+            KeywordMarket: keyword.KeywordMarket || '',
+            KeywordLocation: keyword.KeywordLocation || '',
+            KeywordDevice: keyword.KeywordDevice || '',
+            KeywordTranslation: keyword.KeywordTranslation || '',
+            KeywordTags: keyword.KeywordTags || '',
+            GlobalSearchVolume: keyword.GlobalSearchVolume || 0,
+            RegionalSearchVolume: keyword.RegionalSearchVolume || 0,
+            CreatedAt: keyword.CreatedAt || '',
         }
 
         keywordInserts.push((Object as any).values(insert))
@@ -140,8 +141,11 @@ export function insertKeywords(conn: Pool, database_prefix: string, keywords: Ke
     return runQuery(conn, query, [insertKeys, keywordInserts])
 }
 
-
-export function insertKeywordRankings(conn: Pool, database_prefix: string, rankings: KeywordRankingInsert[]) {
+export function insertKeywordRankings(
+    conn: Pool,
+    database_prefix: string,
+    rankings: KeywordRankingInsert[]
+) {
     const rankingInserts = []
     for (const rank of rankings) {
         if (!rank.SiteID) {
@@ -149,13 +153,13 @@ export function insertKeywordRankings(conn: Pool, database_prefix: string, ranki
         }
 
         const insert = {
-            'ID': `${rank.date}_${rank.KeywordID}`,
-            'SiteID': rank.SiteID,
-            'KeywordID': rank.KeywordID,
-            'Rank': rank.Rank || 0,
-            'BaseRank': rank.BaseRank || 0,
-            'Url': rank.Url || '',
-            'date': rank.date,
+            ID: `${rank.date}_${rank.KeywordID}`,
+            SiteID: rank.SiteID,
+            KeywordID: rank.KeywordID,
+            Rank: rank.Rank || 0,
+            BaseRank: rank.BaseRank || 0,
+            Url: rank.Url || '',
+            date: rank.date,
         }
 
         rankingInserts.push(Object.values(insert))
@@ -176,5 +180,3 @@ export function insertKeywordRankings(conn: Pool, database_prefix: string, ranki
 
     return runQuery(conn, query, [insertKeys, rankingInserts])
 }
-
-

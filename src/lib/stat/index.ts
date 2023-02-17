@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch'
-import Sync from './stat/sync'
-import { StatKeywordsList, StatResponse, StatSitesAll } from '../types/stat'
+import Sync from '@lib/stat/sync'
+import { StatKeywordsList, StatResponse, StatSitesAll } from '@app-types/stat'
 
 class HTTPResponseError extends Error {
     public response: Response
@@ -32,7 +32,9 @@ class StatClient {
         const response: Response = await fetch(href)
         const data = await response.json()
 
-        const responseCode = parseInt((data as StatResponse)?.Response?.responsecode)
+        const responseCode = parseInt(
+            (data as StatResponse)?.Response?.responsecode
+        )
         if (!response.ok || responseCode === 500) {
             throw new HTTPResponseError(response)
         }
@@ -43,13 +45,21 @@ class StatClient {
 
 export const client = new StatClient()
 
-
 export async function getAllSitesSTAT() {
     const data = await client.query('sites/all', 'start=0&results=1000')
-    return (data as StatSitesAll).Response?.Result?.filter(({ Tracking }) => Tracking === 'true')
+    return (data as StatSitesAll).Response?.Result?.filter(
+        ({ Tracking }) => Tracking === 'true'
+    )
 }
 
-export async function getSiteDataSTAT(siteID: string|number, start = 0, results = Sync.ROW_LIMIT) {
-    const data = await client.query('keywords/list', `site_id=${siteID}&start=${start}&results=${results}`)
+export async function getSiteDataSTAT(
+    siteID: string | number,
+    start = 0,
+    results = Sync.ROW_LIMIT
+) {
+    const data = await client.query(
+        'keywords/list',
+        `site_id=${siteID}&start=${start}&results=${results}`
+    )
     return (data as StatKeywordsList)?.Response
 }

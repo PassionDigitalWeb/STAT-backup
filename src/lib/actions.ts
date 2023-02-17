@@ -1,14 +1,11 @@
-import { logger } from './logger'
-import { getAllSitesSTAT } from './stat'
-/* Importing the `datasetIdFromSite` function from the `helpers.js` file. */
-import { datasetIdFromSite } from './helpers'
-import Sync from './stat/sync'
-
-import Sentry from './sentry'
-import { createNewPool } from './database'
-import { Site } from '../types/stat'
+import { logger } from '@lib/logger'
+import { getAllSitesSTAT } from '@lib/stat'
+import { datasetIdFromSite } from '@lib/helpers'
+import Sync from '@lib/stat/sync'
+import Sentry from '@lib/sentry'
+import { createNewPool } from '@lib/database'
+import { Site } from '@app-types/stat'
 import { Pool } from 'mysql'
-
 
 /**
  * It creates the tables, retrieves the keywords, syncs the keywords, and syncs the rankings
@@ -59,18 +56,19 @@ export default async function syncSites() {
                         })
 
                         return Promise.reject(e)
-                    }))
+                    })
+            )
 
             const result = await Promise.allSettled(syncSitePromises)
-            const rejected = result?.filter(({ status }) => status !== 'fulfilled')
-
-            logger.info('allSettled results',
-                {
-                    sites: sites.length,
-                    fulfilled: result.length - rejected.length,
-                    rejected: rejected.length,
-                },
+            const rejected = result?.filter(
+                ({ status }) => status !== 'fulfilled'
             )
+
+            logger.info('allSettled results', {
+                sites: sites.length,
+                fulfilled: result.length - rejected.length,
+                rejected: rejected.length,
+            })
         } catch (e) {
             Sentry?.captureException(e)
         }

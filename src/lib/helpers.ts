@@ -1,5 +1,5 @@
 import url from 'node:url'
-import { Site } from '../types/stat'
+import { Site } from '@app-types/stat'
 
 const datasetIdFromSite = (site: Site) => {
     let siteUrl = site.Url

@@ -1,5 +1,5 @@
-# STAT Backup
-
+[![Stat Logo](./stat_logo_blue_small.jpg)](https://getstat.com)
+# STAT-Cloud SQL Sync
 Synchronize data between STAT and Cloud SQL.
 
 ## Stack
@@ -168,4 +168,4 @@ Example : `1234_passion_digital_KeywordRankings`
 
 ## Authors
 
-- **Sam Holtby**, Full Stack Developer : https://github.com/SamuelHoltby
+> **Sam Holtby**, Full Stack Developer : https://github.com/SamuelHoltby

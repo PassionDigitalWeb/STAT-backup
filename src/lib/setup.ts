@@ -3,9 +3,11 @@ import { config } from 'dotenv'
 config()
 
 function checkRequiredEnvVars(requiredEnvVars: string[]) {
-    requiredEnvVars.forEach(envVar => {
+    requiredEnvVars.forEach((envVar) => {
         if (!Object.prototype.hasOwnProperty.call(process.env, envVar)) {
-            throw new Error(`Required environment variable ${envVar} is missing.`)
+            throw new Error(
+                `Required environment variable ${envVar} is missing.`
+            )
         }
     })
 }
