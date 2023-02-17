@@ -1,5 +1,6 @@
 type EnvConfig = {
     NODE_ENV?: string
+    DEBUG?: boolean
     PORT?: number | string
     STAT_APP_URL: string | undefined
     STAT_API_KEY: string | undefined
@@ -16,6 +17,7 @@ type EnvConfig = {
 
 const CONFIG: EnvConfig = {
     NODE_ENV: process.env.NODE_ENV || 'development',
+    DEBUG: process.env.DEBUG === '1' || false,
     PORT: process.env.PORT || 8080,
     DATASET_ID_PREFIX: process.env.DATASET_ID_PREFIX,
     DB_HOST: process.env.DB_HOST,

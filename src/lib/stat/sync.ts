@@ -1,4 +1,5 @@
 import { Pool } from 'mysql'
+import CONFIG from '@root/config'
 import { KeywordInsert, KeywordRankingInsert } from '@app-types/db'
 import { Keyword, Site } from '@app-types/stat'
 import {
@@ -85,9 +86,11 @@ export default class Sync {
         }
 
         const site = this.site
-        logger.info(
-            `Started syncKeywords for db: ${this.databasePrefix} - #${site.Id}`
-        )
+        if (CONFIG.DEBUG) {
+            logger.info(
+                `Started syncKeywords for db: ${this.databasePrefix} - #${site.Id}`
+            )
+        }
 
         const keywords = this.keywords
         const keywordInserts: KeywordInsert[] = keywords.map((keyword) => ({
@@ -106,21 +109,25 @@ export default class Sync {
             CreatedAt: keyword?.CreatedAt || '',
         }))
 
-        logger.info(`Site #${site.Id} : keywords to insert`, {
-            keywords: keywordInserts.length,
-        })
+        if (CONFIG.DEBUG) {
+            logger.info(`Site #${site.Id} : keywords to insert`, {
+                keywords: keywordInserts.length,
+            })
+        }
 
         const result = await insertKeywords(
             this.connection,
             this.databasePrefix,
             keywordInserts
         )
-        logger.info(`Site #${site.Id} : keywords`, {
-            message: result.message,
-            affectedRows: result.affectedRows,
-            changedRows: result.changedRows,
-        })
-        logger.info(`Finished for #${site.Id}`)
+        if (CONFIG.DEBUG) {
+            logger.info(`Site #${site.Id} : keywords`, {
+                message: result.message,
+                affectedRows: result.affectedRows,
+                changedRows: result.changedRows,
+            })
+            logger.info(`Finished for #${site.Id}`)
+        }
 
         return this.syncRankings()
     }
@@ -154,22 +161,28 @@ export default class Sync {
             }
         }
 
-        logger.info(`Site #${site.Id} : rankings`, {
-            rankings: rankingInserts.length,
-        })
+        if (CONFIG.DEBUG) {
+            logger.info(`Site #${site.Id} : rankings`, {
+                rankings: rankingInserts.length,
+            })
+        }
 
         if (rankingInserts.length) {
-            logger.info(
-                `Started syncRankings for db: ${this.databasePrefix} - #${site.Id}`
-            )
+            if (CONFIG.DEBUG) {
+                logger.info(
+                    `Started syncRankings for db: ${this.databasePrefix} - #${site.Id}`
+                )
+            }
             return insertKeywordRankings(
                 this.connection,
                 this.databasePrefix,
                 rankingInserts
             ).then((r) => {
-                logger.info(
-                    `Finished syncRankings for db: ${this.databasePrefix} - #${site.Id}`
-                )
+                if (CONFIG.DEBUG) {
+                    logger.info(
+                        `Finished syncRankings for db: ${this.databasePrefix} - #${site.Id}`
+                    )
+                }
                 return r
             })
         }

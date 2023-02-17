@@ -26,11 +26,11 @@ app.get('/synchronize', async (req: Request, res: Response) => {
         }
 
         req.app.set('isProcessing', true)
-        logger.info('Syncing locked')
+        logger.info('🔒 Syncing locked')
 
         syncSites().then(() => {
             req.app.set('isProcessing', false)
-            logger.info('Syncing unlocked')
+            logger.info('🔓 Syncing unlocked')
         })
 
         res.send('syncing sites!')

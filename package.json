@@ -10,7 +10,7 @@
     "develop": "rm -rf build && tsc && nodemon",
     "start:sync_sites": "npx ts-node ./src/sync-sites.ts",
     "start": "node build/server.js",
-    "gcloud:deploy": "gcloud app deploy",
+    "gcloud:deploy": "npm run build; gcloud app deploy",
     "gcloud:log": "gcloud app logs tail -s default",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
