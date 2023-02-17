@@ -4,15 +4,15 @@
   "description": "Synchronize data between STAT and Cloud SQL.",
   "main": "build/server.ts",
   "scripts": {
-    "fresh": "rm -rf node_modules build; rm package-lock.json; npm install; echo \"\\n\\n✨ Ahh that's better\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf node_modules build; rm package-lock.json; npm install; echo \"\\n\\n✨ Ahh that's better\"",
+    "develop": "npm-run-all build watch",
     "build": "rm -rf build && tsc",
-    "start:dev": "npx nodemon",
+    "build:start": "npm-run-all build start",
+    "watch": "npx nodemon",
+    "start:sync_sites": "npx ts-node ./src/sync-sites.ts",
     "start": "node build/server.js",
-    "build_start": "npm run build && npm run start",
-    "sync_sites": "npx ts-node ./src/sync-sites.ts",
-    "gcloud_deploy": "gcloud app deploy",
-    "gcloud_log": "gcloud app logs tail -s default",
+    "gcloud:deploy": "gcloud app deploy",
+    "gcloud:log": "gcloud app logs tail -s default",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint": "eslint . --ext .ts"
@@ -60,6 +60,7 @@
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.5.0",
     "nodemon": "^2.0.20",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
@@ -69,6 +70,7 @@
   ],
   "_moduleAliases": {
     "@root": "./build",
+    "@config": "./build/config",
     "@lib": "./build/lib",
     "@app-types": "./build/types"
   }

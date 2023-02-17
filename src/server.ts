@@ -1,11 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express'
 import 'module-alias/register'
-import '@root/setup'
+import '@config/setup'
+import CONFIG from '@root/config'
 import syncSites from '@lib/actions'
 import { isAppEngineCron } from '@lib/middleware'
 
 const app = express()
-const PORT = process.env.PORT || 8080
+const PORT = CONFIG.PORT || 8080
 
 app.listen(PORT, () => {
     // eslint-disable-next-line no-console
@@ -13,7 +14,7 @@ app.listen(PORT, () => {
 })
 
 // ensure that request comes from app engine cron
-if (process.env.NODE_ENV === 'production') {
+if (CONFIG.NODE_ENV === 'production') {
     app.use(isAppEngineCron)
 }
 

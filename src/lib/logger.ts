@@ -3,16 +3,16 @@ import { LoggingBunyan } from '@google-cloud/logging-bunyan'
 // @ts-ignore
 import pretty from '@mechanicalhuman/bunyan-pretty'
 import bunyan, { LoggerOptions } from 'bunyan'
+import CONFIG from '@root/config'
 
 const bunyanOptions: LoggerOptions = {
     name: 'stat_backup',
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (CONFIG.NODE_ENV === 'production') {
     // Creates a Bunyan Cloud Logging client
     const loggingBunyan = new LoggingBunyan({
-        keyFilename: process.env.GBQ_KEY_FILENAME,
-        projectId: process.env.PROJECT_ID,
+        projectId: CONFIG.PROJECT_ID,
     })
     bunyanOptions['streams'] = [
         { stream: process.stdout, level: 'info' },

@@ -1,4 +1,5 @@
 import fetch, { Response } from 'node-fetch'
+import CONFIG from '@root/config'
 import { StatKeywordsList, StatResponse, StatSitesAll } from '@app-types/stat'
 import Sync from '@lib/stat/sync'
 
@@ -13,11 +14,11 @@ class HTTPResponseError extends Error {
 
 class StatClient {
     #getURL() {
-        return `${process.env.STAT_APP_URL}`
+        return `${CONFIG.STAT_APP_URL}`
     }
 
     #getPath(endpoint: string): string {
-        return `/api/v2/${process.env.STAT_API_KEY}/${endpoint}`
+        return `/api/v2/${CONFIG.STAT_API_KEY}/${endpoint}`
     }
 
     async query(endpoint: string, searchParams = ''): Promise<any> {

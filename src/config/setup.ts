@@ -1,6 +1,4 @@
-import { config } from 'dotenv'
-
-config()
+import 'dotenv/config'
 
 function checkRequiredEnvVars(requiredEnvVars: string[]) {
     requiredEnvVars.forEach((envVar) => {
