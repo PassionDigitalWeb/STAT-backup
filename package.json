@@ -2,7 +2,7 @@
   "name": "stat-backup",
   "version": "1.0.0",
   "description": "Synchronize data between STAT and Cloud SQL.",
-  "main": "src/server.ts",
+  "main": "build/server.ts",
   "scripts": {
     "fresh": "rm -rf node_modules build; rm package-lock.json; npm install; echo \"\\n\\n✨ Ahh that's better\"",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
     "start:dev": "npx nodemon",
     "start": "node build/server.js",
     "build_start": "npm run build && npm run start",
-    "sync-sites": "npx ts-node ./src/sync-sites.ts",
+    "sync_sites": "npx ts-node ./src/sync-sites.ts",
     "gcloud_deploy": "gcloud app deploy",
     "gcloud_log": "gcloud app logs tail -s default",
     "format:check": "prettier --check .",

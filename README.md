@@ -71,15 +71,15 @@ ORDER BY
 
 ## File/Folder Structure
 
-| File/Folder         | Description                                                                                                                                                                                                                           |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `src/lib/`          | Library folder used for all code.                                                                                                                                                                                                     |
-| `src/types/`        | Various Typescripts types.                                                                                                                                                                                                            |
-| `.env`              | Used locally for environment variables. Accessed via `process.env`.                                                                                                                                                                   |
-| `.env.template`     | As `.env` is git ignored, this file can be used as a template.                                                                                                                                                                        |
-| `.gitignore`        | a list of files and folders to ignore from the git repository.                                                                                                                                                                        |
-| `src/index.ts`      | This file typically contains the code for your Node.js server application. It defines the behavior of the server and specifies how it responds to incoming requests from clients. Utilising Express to handle routing and middleware. |
-| `src/sync-sites.ts` | Used while calling `npm sync-sites`. This file will call `syncSite()` function.                                                                                                                                                       |
+| File/Folder         | Description                                                                                                                                                                                                                          |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `src/lib/`          | Library folder used for all code.                                                                                                                                                                                                    |
+| `src/types/`        | Various Typescripts types.                                                                                                                                                                                                           |
+| `.env`              | Used locally for environment variables. Accessed via `process.env`.                                                                                                                                                                  |
+| `.env.template`     | As `.env` is git ignored, this file can be used as a template.                                                                                                                                                                       |
+| `.gitignore`        | a list of files and folders to ignore from the git repository.                                                                                                                                                                       |
+| `src/server.ts`     | This file typically contains the code for the Node.js server application. It defines the behavior of the server and specifies how it responds to incoming requests from clients. Utilising Express to handle routing and middleware. |
+| `src/sync-sites.ts` | Used while calling `npm sync-sites`. This file will call `syncSite()` function.                                                                                                                                                      |
 
 ## Google App Engine fields
 
@@ -102,7 +102,7 @@ ORDER BY
 - Create `.env` file from `.env.template` file. Add relevant variables.
 - Run `npm start:dev` to start server locally
 - or Run `npm start` to build and start server
-- or Run `npm sync-sites` to sync sites locally
+- or Run `npm sync_sites` to sync sites locally
 
 ### App Engine Setup
 
