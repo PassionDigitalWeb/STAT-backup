@@ -5,10 +5,9 @@
   "main": "build/server.ts",
   "scripts": {
     "clean": "rm -rf node_modules build; rm package-lock.json; npm install; echo \"\\n\\n✨ Ahh that's better\"",
-    "develop": "npm-run-all build watch",
-    "build": "rm -rf build && tsc",
+    "build": "rm -rf build && tsc && tscpaths -p tsconfig.json -s ./src -o ./build",
     "build:start": "npm-run-all build start",
-    "watch": "npx nodemon",
+    "develop": "rm -rf build && tsc && nodemon",
     "start:sync_sites": "npx ts-node ./src/sync-sites.ts",
     "start": "node build/server.js",
     "gcloud:deploy": "gcloud app deploy",
@@ -43,9 +42,9 @@
     "bunyan": "^1.8.15",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "module-alias": "^2.2.2",
     "mysql": "^2.18.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "tsconfig-paths": "^4.1.2"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
@@ -67,11 +66,5 @@
   },
   "presets": [
     "@babel/preset-env"
-  ],
-  "_moduleAliases": {
-    "@root": "./build",
-    "@config": "./build/config",
-    "@lib": "./build/lib",
-    "@app-types": "./build/types"
-  }
+  ]
 }
