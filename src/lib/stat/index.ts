@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch'
-import Sync from '@lib/stat/sync'
 import { StatKeywordsList, StatResponse, StatSitesAll } from '@app-types/stat'
+import Sync from '@lib/stat/sync'
 
 class HTTPResponseError extends Error {
     public response: Response

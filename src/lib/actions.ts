@@ -1,11 +1,11 @@
-import { logger } from '@lib/logger'
-import { getAllSitesSTAT } from '@lib/stat'
-import { datasetIdFromSite } from '@lib/helpers'
-import Sync from '@lib/stat/sync'
-import Sentry from '@lib/sentry'
-import { createNewPool } from '@lib/database'
-import { Site } from '@app-types/stat'
 import { Pool } from 'mysql'
+import { Site } from '@app-types/stat'
+import { createNewPool } from '@lib/database'
+import { datasetIdFromSite } from '@lib/helpers'
+import { logger } from '@lib/logger'
+import Sentry from '@lib/sentry'
+import { getAllSitesSTAT } from '@lib/stat'
+import Sync from '@lib/stat/sync'
 
 /**
  * It creates the tables, retrieves the keywords, syncs the keywords, and syncs the rankings

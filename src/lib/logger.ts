@@ -1,12 +1,10 @@
-import bunyan, { LoggerOptions } from 'bunyan'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import pretty from "@mechanicalhuman/bunyan-pretty";
-
 // Imports the Google Cloud client library for Bunyan
-import {LoggingBunyan} from "@google-cloud/logging-bunyan";
+import { LoggingBunyan } from '@google-cloud/logging-bunyan'
+// @ts-ignore
+import pretty from '@mechanicalhuman/bunyan-pretty'
+import bunyan, { LoggerOptions } from 'bunyan'
 
-const bunyanOptions:LoggerOptions = {
+const bunyanOptions: LoggerOptions = {
     name: 'stat_backup',
 }
 
@@ -28,4 +26,4 @@ if (process.env.NODE_ENV === 'production') {
 // Logs will be written to: "projects/YOUR_PROJECT_ID/logs/bunyan_log"
 const logger = bunyan.createLogger(bunyanOptions)
 
-export {logger}
+export { logger }

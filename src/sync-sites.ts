@@ -1,5 +1,5 @@
 import 'module-alias/register'
-import '@lib/setup'
+import '@root/setup'
 import syncSites from '@lib/actions'
 
 syncSites().then()

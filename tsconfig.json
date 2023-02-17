@@ -16,6 +16,7 @@
     "outDir": "build",
     "baseUrl": "./src",
     "paths": {
+      "@root/*": ["./*"],
       "@lib/*": ["lib/*"],
       "@app-types/*": ["types/*"]
     }

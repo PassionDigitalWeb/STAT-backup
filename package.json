@@ -9,7 +9,7 @@
     "build": "rm -rf build && tsc",
     "start:dev": "npx nodemon",
     "start": "node build/server.js",
-    "build_start": "npm build &&& npm start",
+    "build_start": "npm run build && npm run start",
     "sync-sites": "npx ts-node ./src/sync-sites.ts",
     "gcloud_deploy": "gcloud app deploy",
     "gcloud_log": "gcloud app logs tail -s default",
@@ -25,7 +25,7 @@
     "url": "git+https://github.com/PassionDigitalWeb/STAT-backup.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "sam@passiondigital.co.uk",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/PassionDigitalWeb/STAT-backup/issues"
@@ -48,6 +48,7 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/bunyan": "^1.8.8",
     "@types/express": "^4.17.17",
     "@types/mysql": "^2.15.21",
@@ -67,6 +68,7 @@
     "@babel/preset-env"
   ],
   "_moduleAliases": {
+    "@root": "./build",
     "@lib": "./build/lib",
     "@app-types": "./build/types"
   }

@@ -1,5 +1,5 @@
-import { logger } from '@lib/logger'
 import { NextFunction, Request, Response } from 'express'
+import { logger } from '@lib/logger'
 
 export function isAppEngineCron(
     req: Request,

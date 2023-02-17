@@ -1,13 +1,13 @@
-import { logger } from '@lib/logger'
-import { getSiteDataSTAT } from '@lib/stat'
+import { Pool } from 'mysql'
+import { KeywordInsert, KeywordRankingInsert } from '@app-types/db'
+import { Keyword, Site } from '@app-types/stat'
 import {
     createTables,
     insertKeywordRankings,
     insertKeywords,
 } from '@lib/db_queries'
-import { Keyword, Site } from '@app-types/stat'
-import { Pool } from 'mysql'
-import { KeywordInsert, KeywordRankingInsert } from '@app-types/db'
+import { logger } from '@lib/logger'
+import { getSiteDataSTAT } from '@lib/stat'
 
 /* It takes a site object, gets all the keywords from the STAT API, and inserts them into the database */
 export default class Sync {

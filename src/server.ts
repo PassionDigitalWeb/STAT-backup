@@ -1,7 +1,6 @@
-import 'module-alias/register'
-import '@lib/setup'
-
 import express, { NextFunction, Request, Response } from 'express'
+import 'module-alias/register'
+import '@root/setup'
 import syncSites from '@lib/actions'
 import { isAppEngineCron } from '@lib/middleware'
 

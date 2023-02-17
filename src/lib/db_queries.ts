@@ -1,7 +1,6 @@
-import { logger } from '@lib/logger'
 import { OkPacket, Pool } from 'mysql'
-
 import { KeywordInsert, KeywordRankingInsert } from '@app-types/db'
+import { logger } from '@lib/logger'
 
 export const KEYWORDS_TABLE = `Keywords`
 export const KEYWORD_RANKINGS_TABLE = `KeywordRankings`
