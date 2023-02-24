@@ -6,7 +6,6 @@ export function isAppEngineCron(
     res: Response,
     next: NextFunction
 ) {
-    console.log('isAppEngineCron')
     if (req.header('X-Appengine-Cron') !== 'true') {
         res.status(403)
         logger.error('Cron only endpoint')
