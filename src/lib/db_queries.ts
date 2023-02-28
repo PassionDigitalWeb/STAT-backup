@@ -1,4 +1,5 @@
 import { OkPacket, Pool } from 'mysql'
+import SQL, { SQLStatement } from 'sql-template-strings'
 import { KeywordInsert, KeywordRankingInsert } from '@app-types/db'
 import { logger } from '@lib/logger'
 
@@ -7,12 +8,12 @@ export const KEYWORD_RANKINGS_TABLE = `KeywordRankings`
 
 function runQuery(
     conn: Pool,
-    query: string,
+    query: SQLStatement | string,
     values: any[] = []
 ): Promise<OkPacket> {
     return new Promise((resolve, reject) => {
         try {
-            conn.query(query, values, (error, results, fields) => {
+            conn.query(query, values, (error, results) => {
                 if (error) {
                     throw error
                 }
@@ -26,10 +27,10 @@ function runQuery(
 }
 
 export function getAllKeywords(conn: Pool, siteID = null) {
-    let query = `SELECT * FROM ${KEYWORDS_TABLE}`
+    const query: SQLStatement = SQL`SELECT * FROM ${KEYWORDS_TABLE}`
 
     if (siteID) {
-        query += ` WHERE SiteID = ${siteID}`
+        query.append(SQL` WHERE SiteID = ${siteID}`)
     }
 
     return runQuery(conn, query)
@@ -37,7 +38,9 @@ export function getAllKeywords(conn: Pool, siteID = null) {
 
 export async function createTables(conn: Pool, database_prefix: string) {
     const keywordsTable = `${database_prefix}_${KEYWORDS_TABLE}`
-    const createKeywordsQuery = `
+
+    // language=SQL
+    const createKeywordsQuery: SQLStatement = SQL`
         CREATE TABLE IF NOT EXISTS  \`${keywordsTable}\`
             (
                 ID INT NOT NULL PRIMARY KEY,
@@ -57,20 +60,21 @@ export async function createTables(conn: Pool, database_prefix: string) {
     await runQuery(conn, createKeywordsQuery)
 
     const keywordRankingTable = `${database_prefix}_${KEYWORD_RANKINGS_TABLE}`
-    const createKeywordRankingsQuery = `
-        CREATE TABLE IF NOT EXISTS \`${keywordRankingTable}\`
-            (
-                ID VARCHAR(100) NOT NULL UNIQUE,
-                \`SiteID\` INT NOT NULL,
-                \`KeywordID\` INT NOT NULL,
-                \`Rank\` INT NULL DEFAULT 0,
-                \`BaseRank\` INT NULL DEFAULT 0,
-                \`Url\` VARCHAR(1000) NULL DEFAULT NULL,
-                \`date\` DATE DEFAULT NULL,
-                \`CreatedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-                PRIMARY KEY (ID)
-            );
-        `
+
+    // language=SQL
+    const createKeywordRankingsQuery: SQLStatement = SQL`
+            CREATE TABLE IF NOT EXISTS \`${keywordRankingTable}\`
+                        (
+                            ID VARCHAR(100) NOT NULL UNIQUE,
+                            \`SiteID\` INT NOT NULL,
+                            \`KeywordID\` INT NOT NULL,
+                            \`Rank\` INT NULL DEFAULT 0,
+                            \`BaseRank\` INT NULL DEFAULT 0,
+                            \`Url\` VARCHAR(1000) NULL DEFAULT NULL,
+                            \`date\` DATE DEFAULT NULL,
+                            \`CreatedAt\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+                            PRIMARY KEY (ID)
+                        );`
 
     await runQuery(conn, createKeywordRankingsQuery)
 }
@@ -80,18 +84,6 @@ export function insertKeywords(
     database_prefix: string,
     keywords: KeywordInsert[]
 ) {
-    // `SiteID` INT NULL NOT NULL,
-    //     `Keyword` VARCHAR(100) NULL DEFAULT NULL,
-    //     `KeywordMarket` VARCHAR(100) NULL DEFAULT NULL,
-    //     `KeywordLocation` VARCHAR(100) NULL DEFAULT NULL,
-    //     `KeywordDevice` VARCHAR(100) NULL DEFAULT NULL,
-    //     `KeywordTranslation` VARCHAR(100) NULL DEFAULT NULL,
-    //     `KeywordTags` VARCHAR(100) NULL DEFAULT NULL,
-    //     `GlobalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
-    //     `RegionalSearchVolume` VARCHAR(100) NULL DEFAULT NULL,
-    //     `date` DATE,
-    //     `CreatedAt` DATE
-
     const keywordInserts: KeywordInsert[] = []
     for (const keyword of keywords) {
         if (!keyword.SiteID) {
