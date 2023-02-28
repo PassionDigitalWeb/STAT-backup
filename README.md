@@ -99,14 +99,29 @@ ORDER BY
 
 - Run `npm install`
 - Create `.env` file from `.env.template` file. Add relevant variables.
-- Run `npm start:dev` to start server locally
+- Run `npm develop` to start server locally
 - or Run `npm start` to build and start server
-- or Run `npm sync_sites` to sync sites locally
+- or Run `npm start:sync_sites` to sync sites locally
 
 ### App Engine Setup
 
 - [Install Google Cloud CLI](https://cloud.google.com/sdk/docs/install), which provides the gcloud command-line tool.
   Ensure gcloud is configured to use the Google Cloud project you want to deploy to.
+- Copy the `.env` variables over to a `env_variables.yaml` file. An example of the required format:
+```yaml
+env_variables:
+    STAT_APP_URL: 
+    STAT_API_KEY: 
+    DB_HOST: 
+    DB_INSTANCE: 
+    DB_NAME:    
+    DB_USER: 
+    DB_PASS:     
+    INSTANCE_CONNECTION_NAME:                   
+    PROJECT_ID:
+    SENTRY_DSN:
+```
+
 - Run `gcloud_deploy` or `gcloud app deploy` to deploy the codebase to App Engine.
 - To deploy the CRON jobs, run `gcloud app deploy cron.yaml`. Apparently simply deploying isn't enough.
 
