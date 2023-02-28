@@ -1,6 +1,6 @@
 [![Stat Logo](./stat_logo_blue_small.jpg)](https://getstat.com)
-# STAT-Cloud SQL Sync
-Synchronize data between STAT and Cloud SQL.
+# STAT-Cloud SQL Backup
+Backup data from STAT to Cloud SQL.
 
 ## Stack
 
@@ -19,8 +19,7 @@ Synchronize data between STAT and Cloud SQL.
 
 ## How it works
 
-The `syncSite()` function is a key part of the Node.js application that synchronizes data between two web
-services: [STAT](https://getstat.com) and [Cloud SQL](https://cloud.google.com/sql). Once this function is called, the
+The `syncSite()` function is a key part of the Node.js application that will backup data from [STAT](https://getstat.com) to [Cloud SQL](https://cloud.google.com/sql). Once this function is called, the
 script fetches the list of websites from STAT. However, only those websites that are currently being tracked are
 considered valid. This is determined by the `getAllSitesSTAT()` function.
 
