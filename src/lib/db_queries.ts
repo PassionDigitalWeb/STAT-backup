@@ -40,7 +40,7 @@ export async function createTables(conn: Pool, database_prefix: string) {
     const keywordsTable = `${database_prefix}_${KEYWORDS_TABLE}`
 
     // language=SQL
-    const createKeywordsQuery: SQLStatement = SQL`
+    const createKeywordsQuery = `
         CREATE TABLE IF NOT EXISTS  \`${keywordsTable}\`
             (
                 ID INT NOT NULL PRIMARY KEY,
@@ -62,7 +62,7 @@ export async function createTables(conn: Pool, database_prefix: string) {
     const keywordRankingTable = `${database_prefix}_${KEYWORD_RANKINGS_TABLE}`
 
     // language=SQL
-    const createKeywordRankingsQuery: SQLStatement = SQL`
+    const createKeywordRankingsQuery = `
             CREATE TABLE IF NOT EXISTS \`${keywordRankingTable}\`
                         (
                             ID VARCHAR(100) NOT NULL UNIQUE,
